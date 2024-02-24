@@ -1,6 +1,7 @@
 
 
-![Image](https://drive.google.com/file/d/1h67LDL-w30WXcQQ3PUxABzsLBmH37FdF/view?usp=sharing)
+# TO DO LIST WITH VUE JS AND EXPRESS JS 
+### Laila Ainur Rahma (Software Engineer Intern)
 
 
 **HELPFUL LINKS**
