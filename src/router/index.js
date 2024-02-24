@@ -3,14 +3,13 @@ import Dashboard from "../views/Dashboard.vue";
 import Tables from "../views/Tables.vue";
 import Todo from "../views/Todo.vue";
 import EditTodo from "../views/EditTodo.vue";
-import VirtualReality from "../views/VirtualReality.vue";
-import RTL from "../views/Rtl.vue";
 import ToDoForm from "../views/ToDoForm.vue";
 import Profile from "../views/Profile.vue";
 import Signup from "../views/Signup.vue";
 import Signin from "../views/Signin.vue";
 import Cookies from "js-cookie";
 
+// rute-rute yang digunakan untuk mengakses halaman
 const routes = [
   {
     path: "/",
@@ -33,16 +32,11 @@ const routes = [
     component: Todo,
   },
   {
-    path: "/edit-todo/:id", // Define the route with a parameter for the todo index
+    path: "/edit-todo/:id", 
     name: "Edit Todo",
     component: EditTodo,
-    props: true, // Pass route params as props to the component
+    props: true, 
   },
-  // {
-  //   path: "/rtl-page",
-  //   name: "RTL",
-  //   component: RTL,
-  // },
   {
     path: "/todo-form",
     name: " To Do Form",
@@ -65,19 +59,20 @@ const routes = [
   },
 ];
 
+// membuat router 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
   linkActiveClass: "active",
 });
 
+// Membuat authorizaztion untuk halaman public dan signed user only yang tokennya disimpan di cookies
 router.beforeEach((to, from, next) => {
   const publicPages = ["/signin", "/signup", "/dashboard-default"];
   const authRequired = !publicPages.includes(to.path);
-  const loggedIn = Cookies.get("user"); // Retrieve user data from cookies
+  const loggedIn = Cookies.get("jwt-token"); 
 
-  // trying to access a restricted page + not logged in
-  // redirect to login page
+  // jika mengakses halaman yang butuh authorization maka akan redirect ke halaman sign in
   if (authRequired && !loggedIn) {
     next("/signin");
   } else {

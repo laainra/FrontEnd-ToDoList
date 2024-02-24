@@ -1,6 +1,7 @@
-import axios from 'axios';
+// membuat class todo service yang berisi method uyang berisi API CRUD untuk request dengan axios
+import axios from 'axios'; // import axios untuk membuat request HTTP
 
-const API_URL = 'http://localhost:3500/api/todos/';
+const API_URL = 'http://localhost:3500/api/todos/';// dekalarasi variabel API URL untuk api todo
 
 class TodoService {
   constructor() {
@@ -8,10 +9,9 @@ class TodoService {
   }
 
   init() {
-    // Request interceptor
+//  // interceptor request
     axios.interceptors.request.use(
       config => {
-        // You can add any logic here before the request is sent
         return config;
       },
       error => {
@@ -19,19 +19,18 @@ class TodoService {
       }
     );
 
-    // Response interceptor
+    // interceptor resppon
     axios.interceptors.response.use(
       response => {
-        // You can add any logic here for handling successful responses
+
         return response;
       },
       error => {
-        // You can add any logic here for handling error responses
         return Promise.reject(error);
       }
     );
   }
-
+// membuat method untuk membuat request api post untuk menambahka todo ke database
   async createTodo(todoData) {
     try {
       const response = await axios.post(API_URL, todoData);
@@ -42,7 +41,7 @@ class TodoService {
       throw error;
     }
   }
-
+// membuat method untuk membuat request api get untuk membaca semua data todo dari  database
   async readTodo() {
     try {
       const response = await axios.get(API_URL);
@@ -53,7 +52,7 @@ class TodoService {
       throw error;
     }
   }
-
+// membuat method untuk membuat request api put untuk mengedit data  todo dari  database berdasarkan id
   async editTodo(id, updatedTodoData) {
     try {
       const response = await axios.put(`${API_URL}${id}`, updatedTodoData);
@@ -64,7 +63,7 @@ class TodoService {
       throw error;
     }
   }
-
+// membuat method untuk membuat request api delete untuk mengahpsu data todo dari  database
   async deleteTodo(id) {
     try {
       const response = await axios.delete(`${API_URL}${id}`);
@@ -75,7 +74,7 @@ class TodoService {
       throw error;
     }
   }
-
+// membuat method untuk membuat request api pget untuk membaca data  todo dari  database berdasarkan id
   async getTodoById(id) {
     try {
       const response = await axios.get(`${API_URL}${id}`);

@@ -1,10 +1,9 @@
+<!-- Membaut halaman sign in yang akan menyimpan data user termasuk token di cookies -->
 <template>
   <div class="container top-0 position-sticky z-index-sticky">
-    <!-- Navbar component -->
     <navbar isBtn="bg-gradient-light" />
   </div>
   <main class="main-content mt-0">
-    <!-- Page header -->
     <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg"
          style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;">
       <span class="mask bg-gradient-dark opacity-6"></span>
@@ -47,14 +46,14 @@
       </div>
     </div>
   </main>
-  <!-- Footer component -->
+
   <app-footer />
 </template>
 
 <script>
 import Navbar from "@/examples/PageLayout/Navbar.vue";
 import AppFooter from "@/examples/PageLayout/Footer.vue";
-import AuthService from "../services/auth.service.js";
+import AuthService from "../services/auth.service.js"; // import auth service yang berisi API authenticaion user
 
 export default {
   name: "Signin",
@@ -73,6 +72,7 @@ export default {
     };
   },
   methods: {
+    // method login yang memanggil methode login dari AuthService kemudian jika berhasil akan redirect ke halaman todo
     async login() {
       this.loading = true;
       try {

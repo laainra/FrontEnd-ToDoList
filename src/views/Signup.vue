@@ -1,3 +1,4 @@
+<!-- Membaut halaman sign up yang akan menyimpan data user baru ke database -->
 <template>
   <div class="container top-0 position-sticky z-index-sticky">
     <!-- Navbar component -->
@@ -57,14 +58,14 @@
       </div>
     </div>
   </main>
-  <!-- Footer component -->
+
   <app-footer />
 </template>
 
 <script>
 import Navbar from "@/examples/PageLayout/Navbar.vue";
 import AppFooter from "@/examples/PageLayout/Footer.vue";
-import AuthService from "../services/auth.service.js";
+import AuthService from "../services/auth.service.js"; // import auth service yang berisi API authenticaion user
 
 export default {
   name: "Signup",
@@ -84,6 +85,7 @@ export default {
     };
   },
   methods: {
+    // method register yang memanggil methode register dari AuthService kemudian jika berhasil akan redirect ke halaman signin
     async register() {
       this.loading = true;
       try {

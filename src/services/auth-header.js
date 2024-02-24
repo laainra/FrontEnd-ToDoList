@@ -1,3 +1,4 @@
+// Membuat header untuk authentication 
 import Cookies from 'js-cookie';
 
 export default function authHeader() {

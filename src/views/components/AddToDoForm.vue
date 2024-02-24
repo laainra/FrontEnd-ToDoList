@@ -1,3 +1,4 @@
+<!-- Membuat komponen form untuk insert to do baru -->
 <template>
   <div class="card">
     <form @submit.prevent="addTodo">
@@ -53,10 +54,11 @@
 </template>
 
 <script>
-import TodoService from "../../services/todo.service.js";
-import Cookies from "js-cookie";
+import TodoService from "../../services/todo.service.js"; // import module todo service yang berisi method API CRUD untuk Todo
+import Cookies from "js-cookie"; // import cookies untuk mengakses cookies di browser
 
 export default {
+  // membuat function data untuk manipulasi data dalam komponen
   data() {
     return {
       title: "",
@@ -65,6 +67,7 @@ export default {
     };
   },
   methods: {
+    // membut method untuk mengambil data dari form kemudian disimpan di database melalui API dari todo service
     async addTodo() {
       try {
         const userData = Cookies.get("user.username");
@@ -78,28 +81,23 @@ export default {
 
         console.log(newTodo);
 
-        // Create the todo in the database
         const createdTodo = await TodoService.createTodo(newTodo);
 
-        // Reset the form after submission
         this.resetForm();
         window.location.reload();
       } catch (error) {
         console.error("Error submitting todo:", error.message);
-        // Handle error
+   
       }
     },
     resetForm() {
-      // Clear form fields
+   // method untuk mereset isi form
       this.title = "";
       this.description = "";
-      // Reset status to empty string
+      
       this.status = "";
     },
   },
 };
 </script>
 
-<style scoped>
-/* Add your custom styles here */
-</style>

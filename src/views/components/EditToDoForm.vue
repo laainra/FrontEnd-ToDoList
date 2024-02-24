@@ -1,3 +1,4 @@
+<!-- Membuat komponen form untuk edit to do  -->
 <template>
   <div class="card">
     <form @submit.prevent="editTodo">
@@ -46,9 +47,11 @@
 </template>
 
 <script>
+ // import module todo service yang berisi API CRUD untuk Todo
 import TodoService from "../../services/todo.service.js";
 
 export default {
+   // membuat function data untuk manipulasi data dalam komponen
   data() {
     return {
       title: "",
@@ -57,11 +60,11 @@ export default {
     };
   },
   async mounted() {
-    // Fetch the todo item based on its ID from the route params
+    // mengambil data berdasarkan parameter route
     const todoId = this.$route.params.id;
     try {
       const todo = await TodoService.getTodoById(todoId);
-      // Populate the form fields with the fetched todo data
+      // Mengisi form field dengan data yang diambil
       this.title = todo.title;
       this.description = todo.description;
       this.status = todo.status ? "completed" : "incomplete";
@@ -71,7 +74,7 @@ export default {
   },
   methods: {
     async editTodo() {
-      // Get the todo ID from the route params
+      // mendapat id dari parameter route
       const todoId = this.$route.params.id;
       try {
         let updatedTodo = {
@@ -79,29 +82,25 @@ export default {
           description: this.description,
           status: this.status === "completed" ? true : false,
         };
-        // Call the editTodo method from TodoService with the updated todo object
+        // Memanggil method editTodo dari TodoService
         const editedTodo = await TodoService.editTodo(todoId, updatedTodo);
         console.log("Todo updated:", editedTodo);
-        // Reset the form after submissions
+        // Reset form
         this.resetForm();
-        // Redirect to the todo list page
+        // Redirect ke halaman todo jika berhasil
         this.$router.push("/todo");
       } catch (error) {
         console.error("Error editing todo:", error.message);
-        // Handle error
+        // mengahndle error
       }
     },
     resetForm() {
-      // Clear form fields
+      // mengapus field form
       this.title = "";
       this.description = "";
-      // Reset status to empty string
       this.status = "";
     },
   },
 };
 </script>
 
-<style scoped>
-/* Add your custom styles here */
-</style>

@@ -1,3 +1,4 @@
+<!-- Membuat ahlaman profile yang menampilkan data user yang sedang login dengan cara mengambil data dari cookie berupa anma dan username -->
 <template>
   <main>
     <div class="container-fluid">

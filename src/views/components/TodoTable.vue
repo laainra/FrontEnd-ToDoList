@@ -1,3 +1,4 @@
+<!-- Membuat komponen table untuk menampilkan todo dari database -->
 <template>
   <div class="card mb-4">
     <div class="card-body px-0 pt-0 pb-2">
@@ -33,6 +34,7 @@
             </tr>
           </thead>
           <tbody>
+            <!-- Membuat looping untuk menampilkan data perbaris -->
             <tr v-for="(todo, index) in todos" :key="todo.id">
               <td>{{ index + 1 }}</td>
               <td class="text-sm">{{ todo.title }}</td>
@@ -43,12 +45,14 @@
                 }}</span>
               </td>
               <td class="text-center">
+                <!-- button edit -->
                 <button
                   class="btn btn-link text-secondary mb-0"
                   @click="editTodo(todo.id)"
                 >
                   Edit
                 </button>
+                 <!-- button hapus -->
                 <button
                   class="btn btn-link text-danger mb-0"
                   @click="deleteTodo(todo.id)"
@@ -65,9 +69,10 @@
 </template>
 
 <script>
-import TodoService from "../../services/todo.service.js";
+import TodoService from "../../services/todo.service.js"; // import module todo service yang berisi method API CRUD untuk Todo
 
 export default {
+  // inisiasi data todos denga array kosong
   data() {
     return {
       todos: [],
@@ -77,31 +82,33 @@ export default {
     this.fetchTodos();
   },
   methods: {
+    // membuat method untuk mengambil semua data todo dari database
     async fetchTodos() {
       try {
-        // Call the readTodo method from TodoService to fetch all todos
+        // Memanggil method readTodo  dari TodoService 
         const todos = await TodoService.readTodo();
-        // Update the todos data property with the fetched todos
+        // mengupdate data todo dengan data yang di fetch 
         this.todos = todos;
       } catch (error) {
         console.error("Error fetching todos:", error.message);
       }
     },
+    // Method untuk edirect ke halaman edit todo dengan membawa id sbg parameter
     async editTodo(id) {
       try {
-        // Redirect to edit page with todo ID
+        
         this.$router.push({ name: 'Edit Todo', params: { id } });
       } catch (error) {
         console.error("Error editing todo:", error.message);
       }
     },
-
+    // method untuk menghapus todo
     async deleteTodo(id) {
       try {
-        // Call the deleteTodo method from TodoService to delete the todo
+        // memanggil method deleteTodo method dari TodoService 
         await TodoService.deleteTodo(id);
         console.error("Delete Success");
-        // Refresh the list after deleting
+        // Refresh list setelah sukses mengahpus
         this.fetchTodos();
       } catch (error) {
         console.error("Error deleting todo:", error.message);

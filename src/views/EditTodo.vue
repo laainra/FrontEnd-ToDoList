@@ -1,3 +1,4 @@
+<!-- Membuat Halaman Todo -->
 <template>
     <div class="container-fluid">
       <div class="row">
@@ -15,7 +16,7 @@
   
   <script>
 
-  import EditToDoForm from "./components/EditToDoForm.vue";
+  import EditToDoForm from "./components/EditToDoForm.vue"; // import komponen form edit todo
   
   export default {
     name: "Todo",
@@ -27,7 +28,7 @@
       return {
         title: "",
         description: "",
-        status: "", // Default status to empty string
+        status: "", 
       };
     },
    
