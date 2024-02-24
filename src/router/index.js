@@ -70,7 +70,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const publicPages = ["/signin", "/signup", "/dashboard-default"];
   const authRequired = !publicPages.includes(to.path);
-  const loggedIn = Cookies.get("jwt-token"); 
+  const loggedIn = Cookies.get("user"); 
 
   // jika mengakses halaman yang butuh authorization maka akan redirect ke halaman sign in
   if (authRequired && !loggedIn) {
