@@ -11,7 +11,7 @@
             />
           </a>
         </div>
-      </div>
+    </div>
     </div>
     <div class="card-header text-center border-0 pt-0 pt-lg-2 pb-4 pb-lg-3">
       <div class="d-flex justify-content-between">

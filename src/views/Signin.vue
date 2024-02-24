@@ -1,110 +1,89 @@
 <template>
   <div class="container top-0 position-sticky z-index-sticky">
-    <div class="row">
-      <div class="col-12">
-        <navbar
-          isBlur="blur  border-radius-lg my-3 py-2 start-0 end-0 mx-4 shadow"
-          v-bind:darkMode="true"
-          isBtn="bg-gradient-success"
-        />
+    <!-- Navbar component -->
+    <navbar isBtn="bg-gradient-light" />
+  </div>
+  <main class="main-content mt-0">
+    <!-- Page header -->
+    <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg"
+         style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;">
+      <span class="mask bg-gradient-dark opacity-6"></span>
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-5 text-center mx-auto">
+            <h1 class="text-white mb-2 mt-5">Welcome!</h1>
+            <p class="text-lead text-white">Use these awesome forms to login or create new account in your project for free.</p>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <main class="mt-0 main-content">
-    <section>
-      <div class="page-header min-vh-100">
-        <div class="container">
-          <div class="row">
-            <div class="mx-auto col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0">
-              <div class="card card-plain">
-                <div class="pb-0 card-header text-start">
-                  <h4 class="font-weight-bolder">Sign In</h4>
-                  <p class="mb-0">Enter your email and password to sign in</p>
-                </div>
-                <div class="card-body">
-                  <form role="form">
-                    <div class="mb-3">
-                      <argon-input type="email" placeholder="Email" name="email" size="lg" />
-                    </div>
-                    <div class="mb-3">
-                      <argon-input type="password" placeholder="Password" name="password" size="lg" />
-                    </div>
-                    <argon-switch id="rememberMe">Remember me</argon-switch>
-
-                    <div class="text-center">
-                      <argon-button
-                        class="mt-4"
-                        variant="gradient"
-                        color="success"
-                        fullWidth
-                        size="lg"
-                      >Sign in</argon-button>
-                    </div>
-                  </form>
-                </div>
-                <div class="px-1 pt-0 text-center card-footer px-lg-2">
-                  <p class="mx-auto mb-4 text-sm">
-                    Don't have an account?
-                    <a
-                      href="javascript:;"
-                      class="text-success text-gradient font-weight-bold"
-                    >Sign up</a>
-                  </p>
-                </div>
-              </div>
+    <div class="container">
+      <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
+        <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
+          <div class="card z-index-0">
+            <div class="card-header text-center pt-4">
+              <h5>Sign in</h5>
             </div>
-            <div
-              class="top-0 my-auto text-center col-6 d-lg-flex d-none h-100 pe-0 position-absolute end-0 justify-content-center flex-column"
-            >
-              <div
-                class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden"
-                style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signin-ill.jpg');
-          background-size: cover;"
-              >
-                <span class="mask bg-gradient-success opacity-6"></span>
-                <h4
-                  class="mt-5 text-white font-weight-bolder position-relative"
-                >"Attention is the new currency"</h4>
-                <p
-                  class="text-white position-relative"
-                >The more effortless the writing looks, the more effort the writer actually put into the process.</p>
-              </div>
+            <div class="card-body">
+              <form @submit.prevent="login" role="form">
+                <div class="form-group">
+                  <input type="text" v-model="user.username" class="form-control" placeholder="Username" aria-label="Username" />
+                </div>
+                <div class="form-group">
+                  <input type="password" v-model="user.password" class="form-control" placeholder="Password" aria-label="Password" />
+                </div>
+                <div class="text-center">
+                  <button :disabled="loading" type="submit" class="btn btn-dark btn-gradient w-100 my-4 mb-2">{{ loading ? 'Signing in...' : 'Sign in' }}</button>
+                </div>
+                <p class="text-sm mt-3 mb-0">
+                  Don't have an account?
+                  <router-link to="/signup" class="text-dark font-weight-bolder">Sign up</router-link>
+                </p>
+                <p class="text-danger mt-3 mb-0">{{ errorMessage }}</p>
+              </form>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   </main>
+  <!-- Footer component -->
+  <app-footer />
 </template>
 
 <script>
 import Navbar from "@/examples/PageLayout/Navbar.vue";
-import ArgonInput from "@/components/ArgonInput.vue";
-import ArgonSwitch from "@/components/ArgonSwitch.vue";
-import ArgonButton from "@/components/ArgonButton.vue";
-const body = document.getElementsByTagName("body")[0];
+import AppFooter from "@/examples/PageLayout/Footer.vue";
+import AuthService from "../services/auth.service.js";
 
 export default {
-  name: "signin",
+  name: "Signin",
   components: {
     Navbar,
-    ArgonInput,
-    ArgonSwitch,
-    ArgonButton,
+    AppFooter,
   },
-  created() {
-    this.$store.state.hideConfigButton = true;
-    this.$store.state.showNavbar = false;
-    this.$store.state.showSidenav = false;
-    this.$store.state.showFooter = false;
-    body.classList.remove("bg-gray-100");
+  data() {
+    return {
+      user: {
+        username: "",
+        password: "",
+      },
+      errorMessage: "",
+      loading: false,
+    };
   },
-  beforeUnmount() {
-    this.$store.state.hideConfigButton = false;
-    this.$store.state.showNavbar = true;
-    this.$store.state.showSidenav = true;
-    this.$store.state.showFooter = true;
-    body.classList.add("bg-gray-100");
+  methods: {
+    async login() {
+      this.loading = true;
+      try {
+        await AuthService.login(this.user);
+        this.$router.push("/todo");
+      } catch (error) {
+        this.loading = false;
+        this.errorMessage = (error.response && error.response.data && error.response.data.message) ||
+                            error.message || error.toString();
+      }
+    },
   },
 };
 </script>

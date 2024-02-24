@@ -25,8 +25,8 @@
             </div>
             <div class="col-auto my-auto">
               <div class="h-100">
-                <h5 class="mb-1">Sayo Kravits</h5>
-                <p class="mb-0 font-weight-bold text-sm">Public Relations</p>
+                <h5 class="mb-1">{{ name }}</h5>
+                <p class="mb-0 font-weight-bold text-sm">{{ username }}</p>
               </div>
             </div>
             <div
@@ -216,7 +216,7 @@
                   <label for="example-text-input" class="form-control-label"
                     >Username</label
                   >
-                  <argon-input type="text" value="lucky.jesse" />
+                  <input class="form-control" type="text" v-model="username" />
                 </div>
                 <div class="col-md-6">
                   <label for="example-text-input" class="form-control-label"
@@ -225,16 +225,16 @@
                   <argon-input type="email" value="jesse@example.com" />
                 </div>
                 <div class="col-md-6">
-                  <label for="example-text-input" class="form-control-label"
+                  <label for="example-text-input"  class="form-control-label"
                     >First name</label
                   >
-                  <input class="form-control" type="text" value="Jesse" />
+                  <input class="form-control" type="text" v-model="name" />
                 </div>
                 <div class="col-md-6">
                   <label for="example-text-input" class="form-control-label"
                     >Last name</label
                   >
-                  <argon-input type="text" value="Lucky" />
+                  <input class="form-control" type="text" v-model="name" />
                 </div>
               </div>
               <hr class="horizontal dark" />
@@ -298,6 +298,7 @@ import setTooltip from "@/assets/js/tooltip.js";
 import ProfileCard from "./components/ProfileCard.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
+import Cookies from 'js-cookie';
 
 const body = document.getElementsByTagName("body")[0];
 
@@ -305,7 +306,9 @@ export default {
   name: "profile",
   data() {
     return {
-      showMenu: false
+      showMenu: false,
+      name: '',
+      username: ''
     };
   },
   components: { ProfileCard, ArgonInput, ArgonButton },
@@ -314,6 +317,8 @@ export default {
     this.$store.state.isAbsolute = true;
     setNavPills();
     setTooltip();
+    this.name = Cookies.get('name');
+    this.username = Cookies.get('username');
   },
   beforeMount() {
     this.$store.state.imageLayout = "profile-overview";
