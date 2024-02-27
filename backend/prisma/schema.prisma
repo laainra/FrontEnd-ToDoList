@@ -13,43 +13,7 @@ model User {
   username        String?           @unique
   password        String?
   lastLogin       DateTime?         @updatedAt
-
-  // Relation Fields
-  userRole        UserRole[]
-  todo            ToDo[]
-}
-
-model Role {
-  id              Int               @id @default(autoincrement())
-  name            String            @unique
-
-  // Relation Fields
-  userRole        UserRole[]
-  access          Access[]
-}
-
-model UserRole {
-  // Relation Fields
-  user            User              @relation(fields: [userName], references: [name], onDelete: Cascade, onUpdate: Cascade)
-  userName        String            @id
-  role            Role              @relation(fields: [roleName], references: [name], onDelete: Cascade, onUpdate: Cascade)
-  roleName        String
-}
-
-model Access {
-  path            String            @unique
-
-  // Relation Fields
-  role            Role              @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  roleId          Int
-}
-
-
-model Tag {
-  name            String            @id @unique
-
-  // Relation Fields
-  todo            ToDo[]
+  todos           ToDo[]
 }
 
 model ToDo {
@@ -58,10 +22,35 @@ model ToDo {
   updatedAt       DateTime          @updatedAt
   title           String
   description     String?           @db.Text
-  status       Boolean           @default(false)
+  status          Boolean           @default(false)
+  userId          Int               @map("user_id")
+  user            User              @relation(fields: [userId], references: [id])
+  tags            Tag[]
+}
 
-  // Relation Fields
-  user            User              @relation(fields: [username], references: [username], onDelete: Cascade, onUpdate: Cascade)
-  username        String
-  category        Tag[]
+model Tag {
+  id              Int               @id @default(autoincrement())
+  name            String            @unique
+  todos           ToDo[]
+}
+
+model Role {
+  id              Int               @id @default(autoincrement())
+  name            String            @unique
+  access          Access[]
+}
+
+model UserRole {
+  user            User              @relation(fields: [userId], references: [id])
+  userId          Int
+  role            Role              @relation(fields: [roleId], references: [id])
+  roleId          Int
+  @@id([userId, roleId])
+}
+
+model Access {
+  id              Int               @id @default(autoincrement())
+  path            String            @unique
+  role            Role              @relation(fields: [roleId], references: [id])
+  roleId          Int
 }
