@@ -9,7 +9,7 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
 exports.signup = (req, res) => {
-  // Save User to Database
+
   User.create({
     username: req.body.username,
     name: req.body.name,
@@ -45,11 +45,19 @@ exports.signin = (req, res) => {
         });
       }
 
-      const token = jwt.sign({ id: user.id }, config.secret, {
-        algorithm: "HS256",
-        allowInsecureKeySizes: true,
-        expiresIn: 86400, // 24 hours
-      });
+      const token = jwt.sign(
+        {
+          id: user.id,
+          username: user.username,
+          name: user.name,
+        },
+        config.secret,
+        {
+          algorithm: "HS256",
+          allowInsecureKeySizes: true,
+          expiresIn: 86400, // 24 hours
+        }
+      );
 
       var authorities = [];
       user.getRoles().then((roles) => {
