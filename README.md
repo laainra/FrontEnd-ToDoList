@@ -1,10 +1,11 @@
 
 
-![Image](https://drive.google.com/file/d/1h67LDL-w30WXcQQ3PUxABzsLBmH37FdF/view?usp=sharing)
+# TO DO LIST WITH VUE JS AND EXPRESS JS 
+### Laila Ainur Rahma (Software Engineer Intern)
 
 
 **HELPFUL LINKS**
-
+- Demo Video [Video Demo To Do List](https://drive.google.com/file/d/1031wABpQ2o1rx6A3Y5FaoJ4-Zv2l5Xzj/view?usp=sharing)
 - View [Github Repository](https://github.com/laainra/FrontEnd-ToDoList)
 
 ## Table of Contents
